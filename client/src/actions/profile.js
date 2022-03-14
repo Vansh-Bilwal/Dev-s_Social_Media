@@ -30,7 +30,7 @@ export const getProfiles = () => async (dispatch) => {
     dispatch({ type: CLEAR_PROFILE });
     let prt;
     if (process.env.NODE_ENV === 'production') {
-      prt = process.env.port;
+      prt = process.env.PORT;
     } else prt = 5000;
 
     const res = await axios.get(`http://localhost:${prt}/api/profile`);
