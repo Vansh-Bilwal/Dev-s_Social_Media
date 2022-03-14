@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addExperience } from '../../actions/profile';
+import { useNavigate } from 'react-router-dom';
 
 const AddExperience = ({ addExperience }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -24,6 +26,7 @@ const AddExperience = ({ addExperience }) => {
     e.preventDefault();
     const data = JSON.stringify(formData);
     addExperience(data);
+    navigate('/dashboard');
   };
 
   return (

@@ -24,6 +24,7 @@ app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/posts', require('./routes/api/posts'));
 
 //Serve static assets in production
+__dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
   //Set static folder
   app.use(express.static('client/build'));
@@ -34,6 +35,4 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () =>
-  console.log(`Server${process.env.NODE_ENV} started at PORT: ${PORT}`)
-);
+app.listen(PORT, () => console.log(`Server started at PORT: ${PORT}`));

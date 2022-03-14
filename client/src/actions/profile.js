@@ -9,7 +9,6 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
 } from './types';
-import { Navigate } from 'react-router-dom';
 
 export const getCurrentProfile = () => async (dispatch) => {
   try {
@@ -29,7 +28,12 @@ export const getCurrentProfile = () => async (dispatch) => {
 export const getProfiles = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAR_PROFILE });
-    const res = await axios.get('http://localhost:5000/api/profile');
+    let prt;
+    if (process.env.NODE_ENV === 'production') {
+      prt = process.env.port;
+    } else prt = 5000;
+
+    const res = await axios.get(`http://localhost:${prt}/api/profile`);
 
     dispatch({ type: GET_PROFILES, payload: res.data });
   } catch (err) {
@@ -106,11 +110,8 @@ export const createProfile =
       dispatch(
         setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success')
       );
-
-      if (!edit) {
-        <Navigate to='/dashboard' />;
-      }
     } catch (err) {
+      console.log(err);
       const errors = err.response.data.errors;
       console.log(errors);
       if (errors) {

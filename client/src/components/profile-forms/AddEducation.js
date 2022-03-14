@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEducation } from '../../actions/profile';
+import { useNavigate } from 'react-router-dom';
 
 const AddEducation = ({ addEducation }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     school: '',
     degree: '',
@@ -25,6 +27,7 @@ const AddEducation = ({ addEducation }) => {
     e.preventDefault();
     const data = JSON.stringify(formData);
     addEducation(data);
+    navigate('/dashboard');
   };
 
   return (
