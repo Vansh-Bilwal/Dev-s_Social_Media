@@ -28,12 +28,13 @@ export const getCurrentProfile = () => async (dispatch) => {
 export const getProfiles = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAR_PROFILE });
-    let prt;
-    if (process.env.NODE_ENV === 'production') {
-      prt = process.env.PORT;
-    } else prt = 5000;
-
-    const res = await axios.get(`http://localhost:${prt}/api/profile`);
+    const res = await axios.get(
+      `${
+        process.env.NODE_ENV === 'production'
+          ? 'https://fierce-savannah-61881.herokuapp.com/'
+          : 'http://localhost:5000/api/profile'
+      }`
+    );
 
     dispatch({ type: GET_PROFILES, payload: res.data });
   } catch (err) {
