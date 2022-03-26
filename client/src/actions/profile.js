@@ -50,9 +50,12 @@ export const getProfiles = () => async (dispatch) => {
 //Get Profile By Id
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/profile/user/${userId}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/profile/user/${userId}`
+        : `http://localhost:5000/api/profile/user/${userId}`;
+    const res = await axios.get(url);
+
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -72,9 +75,12 @@ export const getProfileById = (userId) => async (dispatch) => {
 //Get Github Repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/profile/github/${username}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/profile/github/${username}`
+        : `http://localhost:5000/api/profile/github/${username}`;
+    const res = await axios.get(url);
+
     dispatch({
       type: GET_REPOS,
       payload: res.data,
@@ -101,8 +107,13 @@ export const createProfile =
           'Content-Type': 'application/json',
         },
       };
+
       const res = await axios.post(
-        'http://localhost:5000/api/profile',
+        `${
+          process.env.NODE_ENV === 'production'
+            ? `https://fierce-savannah-61881.herokuapp.com/api/profile`
+            : 'http://localhost:5000/api/profile'
+        }`,
         formData,
         config
       );
@@ -135,7 +146,11 @@ export const addExperience = (formData) => async (dispatch) => {
       },
     };
     const res = await axios.put(
-      'http://localhost:5000/api/profile/experience',
+      `${
+        process.env.NODE_ENV === 'production'
+          ? `https://fierce-savannah-61881.herokuapp.com/api/profile/experience`
+          : 'http://localhost:5000/api/profile/experience'
+      }`,
       formData,
       config
     );
@@ -165,10 +180,15 @@ export const addEducation = (formData) => async (dispatch) => {
       },
     };
     const res = await axios.put(
-      'http://localhost:5000/api/profile/education',
+      `${
+        process.env.NODE_ENV === 'production'
+          ? `https://fierce-savannah-61881.herokuapp.com/api/profile/education`
+          : 'http://localhost:5000/api/profile/education'
+      }`,
       formData,
       config
     );
+
     dispatch({ type: UPDATE_PROFILE, payload: res.data });
     dispatch(setAlert('Education Added', 'success'));
   } catch (err) {
@@ -188,9 +208,12 @@ export const addEducation = (formData) => async (dispatch) => {
 //Delete Experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/profile/experience/${id}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/profile/experience/${id}`
+        : `http://localhost:5000/api/profile/experience/${id}`;
+    const res = await axios.delete(url);
+
     dispatch({ type: UPDATE_PROFILE, payload: res.data });
     dispatch(setAlert('Experience Removed', 'success'));
   } catch (err) {
@@ -203,9 +226,12 @@ export const deleteExperience = (id) => async (dispatch) => {
 //Delete Education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/profile/education/${id}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/profile/education/${id}`
+        : `http://localhost:5000/api/profile/education/${id}`;
+    const res = await axios.delete(url);
+
     dispatch({ type: UPDATE_PROFILE, payload: res.data });
     dispatch(setAlert('Education Removed', 'success'));
   } catch (err) {
@@ -221,7 +247,13 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   if (window.confirm('Are you sure? this can NOT be undone')) {
     try {
-      axios.delete('http://localhost:5000/api/profile');
+      await axios.delete(
+        `${
+          process.env.NODE_ENV === 'production'
+            ? `https://fierce-savannah-61881.herokuapp.com/api/profile`
+            : 'http://localhost:5000/api/profile'
+        }`
+      );
       dispatch({
         type: CLEAR_PROFILE,
       });
