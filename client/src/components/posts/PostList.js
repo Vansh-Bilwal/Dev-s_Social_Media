@@ -28,7 +28,7 @@ const PostList = ({ post, auth, addLike, addUnlike, deletePost }) => {
         <div>
           <p className='my-1'>{text}</p>
           <p className='post-date'>
-            Posted on <Moment format='yyyy/mm/dd'>{date}</Moment>
+            Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
           </p>
           <button
             type='button'

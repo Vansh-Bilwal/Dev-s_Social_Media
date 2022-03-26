@@ -12,7 +12,13 @@ import {
 
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/profile/me');
+    const res = await axios.get(
+      `${
+        process.env.NODE_ENV === 'production'
+          ? 'https://fierce-savannah-61881.herokuapp.com/api/profile/me'
+          : 'http://localhost:5000/api/profile/me'
+      }`
+    );
 
     dispatch({ type: GET_PROFILE, payload: res.data });
   } catch (err) {

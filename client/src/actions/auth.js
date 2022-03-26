@@ -18,7 +18,11 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get('http://localhost:5000/api/auth');
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/auth`
+        : 'http://localhost:5000/api/auth';
+    const res = await axios.get(url);
 
     dispatch({
       type: USER_LOADED,
@@ -43,11 +47,12 @@ export const register =
     const body = JSON.stringify({ name, email, password });
 
     try {
-      const res = await axios.post(
-        'http://localhost:5000/api/users',
-        body,
-        config
-      );
+      const url =
+        process.env.NODE_ENV === 'production'
+          ? `https://fierce-savannah-61881.herokuapp.com/api/users`
+          : 'http://localhost:5000/api/users';
+      const res = await axios.post(url, body, config);
+
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
@@ -76,11 +81,12 @@ export const login =
     };
     const body = JSON.stringify({ email, password });
     try {
-      const res = await axios.post(
-        'http://localhost:5000/api/auth',
-        body,
-        config
-      );
+      const url =
+        process.env.NODE_ENV === 'production'
+          ? `https://fierce-savannah-61881.herokuapp.com/api/auth`
+          : 'http://localhost:5000/api/auth';
+      const res = await axios.post(url, body, config);
+
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,

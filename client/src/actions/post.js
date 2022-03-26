@@ -14,7 +14,14 @@ import React from 'react';
 //GET POSTS
 export const getPosts = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/posts');
+    const res = await axios.get(
+      `${
+        process.env.NODE_ENV === 'production'
+          ? 'https://fierce-savannah-61881.herokuapp.com/api/posts'
+          : 'http://localhost:5000/api/posts'
+      }`
+    );
+
     dispatch({
       type: GET_POSTS,
       payload: res.data,
@@ -34,7 +41,12 @@ export const getPosts = () => async (dispatch) => {
 //Get single post
 export const getSinglePost = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/posts/${id}`);
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts/${id}`
+        : `http://localhost:5000/api/posts/${id}`;
+    const res = await axios.get(url);
+
     dispatch({
       type: GET_POST,
       payload: res.data,
@@ -59,11 +71,11 @@ export const addPost = (text) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post(
-      'http://localhost:5000/api/posts',
-      text,
-      config
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.post(url, text, config);
     dispatch({ type: UPDATE_POST, payload: res.data });
 
     dispatch(setAlert('Post Added', 'success'));
@@ -84,7 +96,12 @@ export const addPost = (text) => async (dispatch) => {
 
 export const addLike = (id) => async (dispatch) => {
   try {
-    const res = await axios.put(`http://localhost:5000/api/posts/like/${id}`);
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts/like/${id}`
+        : `http://localhost:5000/api/posts/like/${id}`;
+    const res = await axios.put(url);
+
     dispatch({ type: UPDATE_LIKE, payload: { id, likes: res.data } });
   } catch (err) {
     console.log(err);
@@ -101,7 +118,12 @@ export const addLike = (id) => async (dispatch) => {
 //Remove Like
 export const addUnlike = (id) => async (dispatch) => {
   try {
-    const res = await axios.put(`http://localhost:5000/api/posts/unlike/${id}`);
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts/unlike/${id}`
+        : `http://localhost:5000/api/posts/unlike/${id}`;
+    const res = await axios.put(url);
+
     dispatch({ type: UPDATE_LIKE, payload: { id, likes: res.data } });
   } catch (err) {
     console.log(err);
@@ -125,11 +147,12 @@ export const addComment = (text, id) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.put(
-      `http://localhost:5000/api/posts/comment/${id}`,
-      text,
-      config
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts/comment/${id}`
+        : `http://localhost:5000/api/posts/comment/${id}`;
+    const res = await axios.put(url, text, config);
+
     dispatch({ type: UPDATE_COMMENT, payload: { id, data: res.data } });
 
     dispatch(setAlert('Comment Added', 'success'));
@@ -150,7 +173,12 @@ export const addComment = (text, id) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`http://localhost:5000/api/posts/${id}`);
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts/${id}`
+        : `http://localhost:5000/api/posts/${id}`;
+    const res = await axios.delete(url);
+
     dispatch({
       type: UPDATE_POSTS,
       payload: id,
@@ -168,9 +196,11 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const deleteComment = (Postid, Commentid) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/posts/comment/${Postid}/${Commentid}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://fierce-savannah-61881.herokuapp.com/api/posts/comment/${Postid}/${Commentid}`
+        : `http://localhost:5000/api/posts/comment/${Postid}/${Commentid}`;
+    const res = await axios.delete(url);
     dispatch({
       type: UPDATE_COMMENT,
       payload: { id: Postid, data: res.data },
