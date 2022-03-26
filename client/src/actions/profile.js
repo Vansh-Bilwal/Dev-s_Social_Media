@@ -31,7 +31,7 @@ export const getProfiles = () => async (dispatch) => {
     const res = await axios.get(
       `${
         process.env.NODE_ENV === 'production'
-          ? 'https://fierce-savannah-61881.herokuapp.com/'
+          ? 'https://fierce-savannah-61881.herokuapp.com/profile'
           : 'http://localhost:5000/api/profile'
       }`
     );
