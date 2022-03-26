@@ -28,10 +28,11 @@ export const getCurrentProfile = () => async (dispatch) => {
 export const getProfiles = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAR_PROFILE });
+    console.log(process.env.NODE_ENV === 'production');
     const res = await axios.get(
       `${
         process.env.NODE_ENV === 'production'
-          ? 'https://fierce-savannah-61881.herokuapp.com/profile'
+          ? 'https://fierce-savannah-61881.herokuapp.com/api/profile'
           : 'http://localhost:5000/api/profile'
       }`
     );
